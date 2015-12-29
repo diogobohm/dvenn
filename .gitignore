@@ -9,5 +9,6 @@
 nbproject/
 dist/
 build/
+target/
 build.xml
 manifest.mf
