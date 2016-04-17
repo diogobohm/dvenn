@@ -15,14 +15,16 @@
  * You should have received a copy of the GNU General Public License along with
  * DVenn. If not, see http://www.gnu.org/licenses/.
  */
-package net.diogobohm.dvenn;
+package net.diogobohm.dvenn.legacy;
 
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Image;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import net.diogobohm.dvenn.image.ImageManager;
 
 public class Screen extends JLabel {
 
@@ -31,6 +33,7 @@ public class Screen extends JLabel {
     private int varNumber;
     private String[] variables = {"a", "b", "c", "d"};
     private Font innerFont = new Font(Font.SANS_SERIF, Font.BOLD, 20);
+    private final ImageManager manager = new ImageManager();
 
     public Screen() {
         setBackground(Color.WHITE);
@@ -40,33 +43,33 @@ public class Screen extends JLabel {
         vennOne = new ImageIcon[3];
         for (int x = 0; x < OneVarVennVector.length; x++) {
             OneVarVennVector[x] = false;
-            vennOne[x] = new ImageIcon(getClass().getResource("1way-" + (x + 1) + ".png"));
+            vennOne[x] = manager.getImageIcon("1way-" + (x + 1) + ".png");
         }
-        vennOne[2] = new ImageIcon(getClass().getResource("1way-screen.png"));
+        vennOne[2] = manager.getImageIcon("1way-screen.png");
 
         TwoVarVennVector = new boolean[4];
         vennTwo = new ImageIcon[5];
         for (int x = 0; x < TwoVarVennVector.length; x++) {
             TwoVarVennVector[x] = false;
-            vennTwo[x] = new ImageIcon(getClass().getResource("2way-" + (x + 1) + ".png"));
+            vennTwo[x] = manager.getImageIcon("2way-" + (x + 1) + ".png");
         }
-        vennTwo[4] = new ImageIcon(getClass().getResource("2way-screen.png"));
+        vennTwo[4] = manager.getImageIcon("2way-screen.png");
 
         ThreeVarVennVector = new boolean[8];
         vennThree = new ImageIcon[9];
         for (int x = 0; x < ThreeVarVennVector.length; x++) {
             ThreeVarVennVector[x] = false;
-            vennThree[x] = new ImageIcon(getClass().getResource("3way-" + (x + 1) + ".png"));
+            vennThree[x] = manager.getImageIcon("3way-" + (x + 1) + ".png");
         }
-        vennThree[8] = new ImageIcon(getClass().getResource("3way-screen.png"));
+        vennThree[8] = manager.getImageIcon("3way-screen.png");
 
         FourVarVennVector = new boolean[16];
         vennFour = new ImageIcon[17];
         for (int x = 0; x < FourVarVennVector.length; x++) {
             FourVarVennVector[x] = false;
-            vennFour[x] = new ImageIcon(getClass().getResource("4way-" + (x + 1) + ".png"));
+            vennFour[x] = manager.getImageIcon("4way-" + (x + 1) + ".png");
         }
-        vennFour[16] = new ImageIcon(getClass().getResource("4way-screen.png"));
+        vennFour[16] = manager.getImageIcon("4way-screen.png");
 
         this.setPreferredSize(new Dimension(getWidth(), getHeight()));
     }

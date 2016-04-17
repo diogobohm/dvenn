@@ -3,6 +3,8 @@ package net.diogobohm.dvenn;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.beans.binding.Bindings;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -34,14 +36,17 @@ public class FXMLController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         imageManager = new ImageManager();
         
-        LogicListener logicListener = new LogicListener();
-        VennDiagramImageProvider diagramPovider = new VennDiagramImageProvider(imageManager);
+        final LogicListener logicListener = new LogicListener();
+        final LogicExpressionDecoder diagramPovider = new LogicExpressionDecoder();
+        final BinaryToImageConverter converter = new BinaryToImageConverter(imageManager);
         
         Background okBackground = new Background(new BackgroundFill(
                 Color.LIGHTGREEN, CornerRadii.EMPTY, Insets.EMPTY));
         Background invalidBackground = new Background(new BackgroundFill(
                 Color.LIGHTSALMON, CornerRadii.EMPTY, Insets.EMPTY));
-        Image invalidDiagram = imageManager.getImage("1way-screen.png");
+        final Image invalidDiagram = imageManager.getImage("1way-screen.png");
+        
+        vennImage.imageProperty().setValue(invalidDiagram);
         
         textField.textProperty().addListener(logicListener);
         
@@ -52,8 +57,15 @@ public class FXMLController implements Initializable {
         vennImage.fitWidthProperty().bind(imagePane.widthProperty());
         vennImage.fitHeightProperty().bind(imagePane.heightProperty());
         
-        vennImage.imageProperty().bind(Bindings.when(logicListener.validExpressionProperty)
-                .then(diagramPovider.decodeDiagram(textField.getText()))
-                .otherwise(invalidDiagram));
+        textField.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue observable, String oldValue, String newValue) {
+                if (logicListener.validExpressionProperty.get()) {
+                    vennImage.imageProperty().setValue(converter.render(diagramPovider.decodeDiagram(textField.getText())));
+                } else {
+                    vennImage.imageProperty().setValue(invalidDiagram);
+                }
+            }
+        });
     }
 }

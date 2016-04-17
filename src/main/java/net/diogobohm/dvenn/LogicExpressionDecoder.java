@@ -16,7 +16,7 @@ import net.diogobohm.dvenn.image.ImageManager;
  *
  * @author diogo
  */
-public class VennDiagramImageProvider {
+public class LogicExpressionDecoder {
     
     private static final String bin1A = "01", bin1An = "10",
             bin2A = "0110", bin2An = "1001",
@@ -31,27 +31,18 @@ public class VennDiagramImageProvider {
     private final String andVar = ".", orVar = "+", not = "'";
     private String var1 = "a", var2 = "b", var3 = "c", var4 = "d";
     
-    private final ImageManager imageManager;
-    
-    public VennDiagramImageProvider(ImageManager imageManager) {
-        this.imageManager = imageManager;
-    }
-    
-    public Image decodeDiagram(String validExpression) {
+    public boolean[] decodeDiagram(String validExpression) {
         String expression = validExpression.toLowerCase();
         
-        boolean[] values = fromBinaryString(
+        return fromBinaryString(
                 navigate(transfer("(" + expression + ")",
                         getVariableNumber(expression)),
                         getVariableNumber(expression)));
-        
-        System.out.println("Values obtained: " + values);
-        
-        return imageManager.getImage("1way-1.png");
     }
     
     private boolean[] fromBinaryString(String word) {
         boolean[] ret = new boolean[word.length()];
+        
         for (int x = 0; x < word.length(); x++) {
             if (word.charAt(x) == '0') {
                 ret[x] = false;
@@ -60,6 +51,8 @@ public class VennDiagramImageProvider {
             }
         }
 
+        System.out.println(String.format("Converted %s to %s", word, ret));
+        
         return ret;
     }
     

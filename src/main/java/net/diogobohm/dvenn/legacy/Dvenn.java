@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU General Public License along with
  * DVenn. If not, see http://www.gnu.org/licenses/.
  */
-package net.diogobohm.dvenn;
+package net.diogobohm.dvenn.legacy;
 
 import java.awt.*;
 import javax.swing.*;
@@ -42,10 +42,6 @@ public class Dvenn implements Runnable {
     Screen diagram;
     JTextField textField;
     
-    public static void main(String[] args) {
-        Dvenn instance = new Dvenn();
-    }
-
     public Dvenn() {
         JFrame frame = new JFrame("Diagramas de Venn");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
